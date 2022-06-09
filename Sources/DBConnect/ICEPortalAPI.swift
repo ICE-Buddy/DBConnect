@@ -19,7 +19,6 @@ public enum ICEPortalAPI {
 extension ICEPortalAPI: TargetType {
     public var baseURL: URL {
         URL(string: "https://iceportal.de/api1/rs")!
-        //URL(string: "https://e2f088c9-a98b-46f3-b094-060ab74894df.mock.pstmn.io/api1/rs")!
     }
     
     public var path: String {
