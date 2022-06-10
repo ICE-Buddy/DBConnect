@@ -10,7 +10,7 @@ import Foundation
 public enum InternetConnection {
     case high, unstable
     
-    static func from(rawString: String) -> InternetConnection {
+    public static func from(rawString: String) -> InternetConnection {
         if rawString == "HIGH" {
             return .high
         }
