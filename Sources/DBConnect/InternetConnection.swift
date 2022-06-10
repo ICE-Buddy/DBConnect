@@ -17,7 +17,7 @@ public enum InternetConnection {
         return .unstable
     }
     
-    var localizedString: String {
+    public var localizedString: String {
         switch self {
         case .high:
             return NSLocalizedString("high-string", comment: "Netzwerk Verbindungsqualität HIGH")
