@@ -13,6 +13,11 @@ public struct TimetableSection: Hashable {
     public let productName: String
     public let departures: [TimetableTrip]
     
+    public init(productName: String, departures: [TimetableTrip]) {
+        self.productName = productName
+        self.departures = departures
+    }
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
