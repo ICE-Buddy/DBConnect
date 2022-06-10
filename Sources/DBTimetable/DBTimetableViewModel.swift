@@ -42,6 +42,6 @@ public struct TimetableTrip: Decodable, Hashable {
 }
 
 public struct TimetableLine: Decodable {
-    let name: String
-    let productName: String
+    public let name: String
+    public let productName: String
 }
