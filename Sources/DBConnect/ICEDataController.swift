@@ -9,14 +9,14 @@ import Foundation
 import Combine
 import Moya
 
-class ICEDataController: NSObject {
+public class ICEDataController: NSObject {
     public static let shared = ICEDataController()
     
     override init() {
         super.init()
     }
     
-    func getProvider(demoMode: Bool) -> MoyaProvider<ICEPortalAPI> {
+    public func getProvider(demoMode: Bool) -> MoyaProvider<ICEPortalAPI> {
         if demoMode {
             return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.immediatelyStub)
         } else {
@@ -24,7 +24,7 @@ class ICEDataController: NSObject {
         }
     }
     
-    func loadTripData(demoMode: Bool = false, completionHandler: @escaping (TripResponse?, Error?) -> ()){
+    public func loadTripData(demoMode: Bool = false, completionHandler: @escaping (TripResponse?, Error?) -> ()){
         let provider = getProvider(demoMode: demoMode)
         provider.request(.trip) { result in
             switch result {
@@ -59,7 +59,7 @@ class ICEDataController: NSObject {
         }
     }
     
-    func loadStatus(demoMode: Bool = false, completionHandler: @escaping (Status?, Error?) -> ()) {
+    public func loadStatus(demoMode: Bool = false, completionHandler: @escaping (Status?, Error?) -> ()) {
         let provider = getProvider(demoMode: demoMode)
         provider.request(.status) { result in
             switch result {
