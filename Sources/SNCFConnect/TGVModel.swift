@@ -74,7 +74,7 @@ public struct Stop: Codable, TrainStop {
     
     public var departureDelay: String {
         if isDelayed {
-            "+\(self.delay)"
+            return "+\(self.delay)"
         } else {
             return ""
         }

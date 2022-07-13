@@ -84,7 +84,7 @@ public struct ICETrainType: TrainType {
     
     #if os(iOS)
     @available(iOS 13.0, *)
-    public var trainIcon: Image {
+    public var trainIcon: Image? {
         switch self.model {
         case .BR401:
             return Image("BR401")
@@ -111,7 +111,7 @@ public struct ICETrainType: TrainType {
     #endif
     
     #if os(macOS)
-    public var trainIcon: NSImage {
+    public var trainIcon: NSImage? {
         switch self.model {
         case .BR401:
             return Bundle.module.image(forResource: "BR401")!

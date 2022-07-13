@@ -34,32 +34,28 @@ extension ICEPortalAPI: TargetType {
         return .get
     }
     
+    private func data(for sample: String) -> Data {
+        do {
+            if let bundlePathURL = Bundle.module.path(forResource: sample, ofType: "json") {
+                let data = try Data(contentsOf: URL(fileURLWithPath: bundlePathURL))
+                return data
+            } else {
+                print("File could not be found")
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        return Data()
+    }
+    
+    
     public var sampleData: Data {
         switch self {
         case .trip:
-            do {
-                if let bundlePathURL = Bundle.main.path(forResource: "tripHamburgBonn", ofType: "json") {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: bundlePathURL))
-                    return data
-                } else {
-                    print("File could not be found")
-                }
-            } catch {
-                print(error.localizedDescription)
-            }
+            return self.data(for: "tripInfo1")
         case .status:
-            do {
-                if let bundlePathURL = Bundle.main.path(forResource: "statusHamBN", ofType: "json") {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: bundlePathURL))
-                    return data
-                } else {
-                    print("File could not be found")
-                }
-            } catch {
-                print(error.localizedDescription)
-            }
+            return self.data(for: "status")
         }
-        return Data()
     }
     
     public var task: Task {
