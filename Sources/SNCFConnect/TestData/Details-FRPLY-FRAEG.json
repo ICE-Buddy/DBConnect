@@ -1,0 +1,265 @@
+{
+  "number": "2204",
+  "carrier": "INOUI",
+  "events": [
+    {
+      "text": "Présence d'un bagage abandonné",
+      "type": "RETARD"
+    }
+  ],
+  "onboardServices": [
+    "OCEPP",
+    "OCECM",
+    "OCEWF"
+  ],
+  "additionalServices": {},
+  "stops": [
+    {
+      "code": "FRMPL",
+      "label": "Montpellier Saint-Roch",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.604738,
+        "longitude": 3.880674
+      },
+      "progress": {
+        "progressPercentage": 100,
+        "traveledDistance": 46380.51807139699,
+        "remainingDistance": 0
+      },
+      "theoricDate": "2022-07-13T11:58:00.000Z",
+      "realDate": "2022-07-13T12:38:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 40,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 0
+    },
+    {
+      "code": "FRFNI",
+      "label": "Nîmes Centre",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.832313,
+        "longitude": 4.365872
+      },
+      "progress": {
+        "progressPercentage": 60.20518677810499,
+        "traveledDistance": 134711.45592483474,
+        "remainingDistance": 89042.44823849508
+      },
+      "theoricDate": "2022-07-13T12:25:00.000Z",
+      "realDate": "2022-07-13T13:05:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 40,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 4
+    },
+    {
+      "code": "FRLPD",
+      "label": "Lyon Part Dieu",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 45.760595970948046,
+        "longitude": 4.859409034252168
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 60188.976763674174
+      },
+      "theoricDate": "2022-07-13T13:50:00.000Z",
+      "realDate": "2022-07-13T14:25:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 35,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 9
+    },
+    {
+      "code": "FRHGU",
+      "label": "Mâcon",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 46.302572,
+        "longitude": 4.824887
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 114295.7350324748
+      },
+      "theoricDate": "2022-07-13T14:39:30.000Z",
+      "realDate": "2022-07-13T15:09:30.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 30,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 2
+    },
+    {
+      "code": "FRABA",
+      "label": "Dijon",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 47.323411,
+        "longitude": 5.027256
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 69701.00136846789
+      },
+      "theoricDate": "2022-07-13T15:40:00.000Z",
+      "realDate": "2022-07-13T16:10:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 30,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 10
+    },
+    {
+      "code": "FRTJB",
+      "label": "Besançon Franche-Comté TGV",
+      "platform": "3",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 47.30721519754844,
+        "longitude": 5.9536130725791745
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 77273.33728647554
+      },
+      "theoricDate": "2022-07-13T16:17:30.000Z",
+      "realDate": "2022-07-13T16:47:30.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 30,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 5
+    },
+    {
+      "code": "FRTJA",
+      "label": "Belfort - Montbéliard TGV",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 47.58510461020043,
+        "longitude": 6.897984445095063
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 37578.31372233496
+      },
+      "theoricDate": "2022-07-13T16:44:00.000Z",
+      "realDate": "2022-07-13T17:14:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 30,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 3
+    },
+    {
+      "code": "FRAEK",
+      "label": "Mulhouse",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 47.742691,
+        "longitude": 7.34316
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 36706.607492326664
+      },
+      "theoricDate": "2022-07-13T17:08:30.000Z",
+      "realDate": "2022-07-13T17:38:30.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 30,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 4
+    },
+    {
+      "code": "FRAEJ",
+      "label": "Colmar",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 48.073527,
+        "longitude": 7.347756
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 63476.25493560415
+      },
+      "theoricDate": "2022-07-13T17:41:00.000Z",
+      "realDate": "2022-07-13T18:11:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 30,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 3
+    },
+    {
+      "code": "FRAEG",
+      "label": "Strasbourg",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 48.584532,
+        "longitude": 7.734793
+      },
+      "theoricDate": "2022-07-13T18:13:00.000Z",
+      "realDate": "2022-07-13T18:43:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 30,
+      "isDelayed": true,
+      "delayReason": "Présence d'un bagage abandonné",
+      "duration": 0
+    }
+  ],
+  "trainId": "506"
+}

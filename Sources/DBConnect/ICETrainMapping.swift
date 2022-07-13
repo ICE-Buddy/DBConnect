@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import TrainConnect
 #if targetEnvironment(macCatalyst)
 import AppKit
 #endif
@@ -15,37 +16,51 @@ import AppKit
 import UIKit
 #endif
 
-public enum TrainType: CaseIterable {
-    
-    case BR401, BR402, BR403, BR406, BR407, BR408, BR411, BR415, BR412, unknown
-    
-    private var triebZugNummern: [Int] {
-        switch self {
-        case .BR401:
-            return [Int](101...199)
-        case .BR402:
-            return [Int](201...299)
-        case .BR403:
-            return [Int](301...399)
-        case .BR406:
-            return [Int](4601...4699)
-        case .BR407:
-            return [Int](701...799) + [Int](4701...4799)
-        case .BR408:
-            return [Int](801...899)
-        case .BR411:
-            return [Int](1101...1199)
-        case .BR415:
-            return [Int](1501...1599)
-        case .BR412:
-            return [Int](9001...9999)
-        case .unknown:
-            return []
+public struct ICETrainType: TrainType {
+  
+    enum Model: CaseIterable {
+        case BR401, BR402, BR403, BR406, BR407, BR408, BR411, BR415, BR412, unknown
+        
+        var triebZugNummern: [Int] {
+            switch self {
+            case .BR401:
+                return [Int](101...199)
+            case .BR402:
+                return [Int](201...299)
+            case .BR403:
+                return [Int](301...399)
+            case .BR406:
+                return [Int](4601...4699)
+            case .BR407:
+                return [Int](701...799) + [Int](4701...4799)
+            case .BR408:
+                return [Int](801...899)
+            case .BR411:
+                return [Int](1101...1199)
+            case .BR415:
+                return [Int](1501...1599)
+            case .BR412:
+                return [Int](9001...9999)
+            case .unknown:
+                return []
+            }
         }
     }
     
+    var triebZugNummer: String
+    var model: Model
+    
+    init(tzn: String) {
+        self.model = Model.allCases.first { trainType in
+            trainType.triebZugNummern.contains(triebzugnummer: tzn)
+        } ?? .unknown
+        self.triebZugNummer = tzn
+    }
+    
+  
+    
     public var humanReadableTrainType: String {
-        switch self {
+        switch self.model {
         case .BR401:
             return "ICE 1"
         case .BR402:
@@ -63,17 +78,14 @@ public enum TrainType: CaseIterable {
         }
     }
     
-    
-    public static func trainType(from triebZugNummer: String) -> TrainType {
-        return TrainType.allCases.first { trainType in
-            trainType.triebZugNummern.contains(triebzugnummer: triebZugNummer)
-        } ?? .unknown
+    public var trainModel: String {
+        "\(self.humanReadableTrainType) (TZN: \(self.triebZugNummer))"
     }
     
     #if os(iOS)
     @available(iOS 13.0, *)
     public var trainIcon: Image {
-        switch self {
+        switch self.model {
         case .BR401:
             return Image("BR401")
         case .BR402:
@@ -100,7 +112,7 @@ public enum TrainType: CaseIterable {
     
     #if os(macOS)
     public var trainIcon: NSImage {
-        switch self {
+        switch self.model {
         case .BR401:
             return Bundle.module.image(forResource: "BR401")!
         case .BR402:
