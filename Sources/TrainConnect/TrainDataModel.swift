@@ -53,7 +53,7 @@ public protocol TrainTrack {
 public protocol TrainStatus {
     var latitude: Double { get }
     var longitude: Double { get }
-    var speed: Double { get }
+    var currentSpeed: Measurement<UnitSpeed> { get }
     var currentConnectivity: String? { get }
     var connectedDevices: Int? { get }
     var trainType: TrainType { get }

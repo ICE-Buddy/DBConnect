@@ -138,6 +138,7 @@ public struct Services: Codable {
 
 struct Status: TrainStatus {
     
+    
     let gps: GPSResponse
     let statistics: StatisticsResponse
     
@@ -151,9 +152,12 @@ struct Status: TrainStatus {
         gps.longitude
     }
     
-    var speed: Double {
-        gps.speed
+ 
+    
+    var currentSpeed: Measurement<UnitSpeed> {
+        Measurement<UnitSpeed>(value: gps.speed, unit: .metersPerSecond)
     }
+
     
     
     var currentConnectivity: String? {

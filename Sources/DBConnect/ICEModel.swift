@@ -192,6 +192,10 @@ public struct Status: Decodable, TrainStatus {
     public var trainType: TrainType {
         ICETrainType(tzn: tzn)
     }
+    
+    public var currentSpeed: Measurement<UnitSpeed> {
+        Measurement<UnitSpeed>(value: self.speed, unit: .kilometersPerHour)
+    }
 }
 
 public struct Connectivity: Decodable {
