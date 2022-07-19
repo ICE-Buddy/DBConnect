@@ -178,41 +178,62 @@ struct Status: TrainStatus {
 
 struct TVGTrainType: TrainType {
     
+    enum TVGModel: String {
+        case pseBi = "TGV PSE (bicourant)"
+        case pseTri = "TGV PSE (tricourant)"
+        case atlantique = "TGV Atlantique"
+        case reseauBi = "TGV Réseau (bicourant)"
+        case reseauTri = "TGV Réseau (tricourant)"
+        case duplex = "TGV Duplex"
+        case reseauDuplex = "TGV Réseau Duplex"
+        case duplexPOS = "TGV Duplex POS"
+        case dasye = "TGV DASYE"
+        case euroduplex3UH = "Euroduplex / TGV 2N2 (3UH)"
+        case euroduplex3UF = "Euroduplex / TGV 2N2 (3UF)"
+        case euroduplex3UA = "Euroduplex / TGV 2N2 (3UA)"
+        case euroduplex3UFC = "Euroduplex / TGV 2N2 (3UFC Océane)"
+        case thalyse = "THALYS PBKA"
+    }
+    
     let trainId: String
     
     //Source: https://www.hunza.pro/differentes-rames-tgv-circulant-sur-reseau-sncf.html
     var trainModel: String {
+        return self.model?.rawValue ?? self.trainId
+    }
+    
+    private var model: TVGModel? {
         switch Int(self.trainId) ?? 0 {
         case 1...102:
-            return "TGV PSE (bicourant)"
+            return .pseBi
         case 110...118:
-            return "TGV PSE (tricourant)"
+            return .pseTri
         case 301...405, 105:
-            return "TGV Atlantique"
+            return .atlantique
         case 501...554:
-            return "TGV Réseau (bicourant)"
+            return .reseauBi
         case 4501...4540:
-            return "TGV Réseau (tricourant)"
+            return .reseauTri
         case 201...294:
-            return "TGV Duplex"
+            return .duplex
         case 601...619:
-            return "TGV Réseau Duplex"
+            return .reseauDuplex
         case 4401...4419:
-            return "TGV Duplex POS"
+            return .duplexPOS
         case 701...752:
-            return "TGV DASYE"
+            return .dasye
         case 800...810:
-            return "Euroduplex / TGV 2N2 (3UH)"
+            return .euroduplex3UH
         case 811...852:
-            return "Euroduplex / TGV 2N2 (3UF)"
+            return .euroduplex3UF
         case 4701...4730:
-            return "Euroduplex / TGV 2N2 (3UA)"
+            return .euroduplex3UA
         case 826...894:
-            return "Euroduplex / TGV 2N2 (3UFC Océane)"
+            return .euroduplex3UFC
         case 4301...4346:
-            return "THALYS PBKA"
+            return .thalyse
         default:
-            return "Unknown" // Eurostar maybe?
+            return nil
         }
     }
     
@@ -258,7 +279,27 @@ struct TVGTrainType: TrainType {
 //    }
     
     var trainIcon: NSImage? {
-        Bundle.module.image(forResource: "TGV_Placeholder")!
+        Bundle.module.image(forResource: self.icon)!
+    }
+    
+    private var icon: String {
+        guard let model = self.model else {
+            return "tgv_default"
+        }
+        switch model {
+        case .pseBi, .pseTri:
+            return "tgv_pse"
+        case .atlantique, .reseauBi, .reseauDuplex:
+            return "tgv_atlantique"
+        case .reseauTri:
+            return "tgv_reseau_tri"
+        case .duplexPOS:
+            return "tgv_pos"
+        case .dasye, .euroduplex3UH, .euroduplex3UF, .euroduplex3UA, .euroduplex3UFC, .duplex:
+            return "tgv_duplex"
+        case .thalyse:
+            return "tgv_thalyse"
+        }
     }
     
     
