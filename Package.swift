@@ -5,15 +5,21 @@ import PackageDescription
 
 let package = Package(
     name: "DBConnect",
-    platforms: [.iOS(.v13), .macOS(.v10_12)],
+    platforms: [.iOS(.v13), .macOS(.v11)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
+        .library(
+            name: "TrainConnect",
+            targets: ["TrainConnect"]),
         .library(
             name: "DBConnect",
             targets: ["DBConnect"]),
         .library(
             name: "DBTimetable",
             targets: ["DBTimetable"]),
+        .library(
+            name: "SNCFConnect",
+            targets: ["SNCFConnect"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -26,15 +32,27 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "DBConnect",
-            dependencies: ["Moya"]),
+            dependencies: ["Moya", "TrainConnect"],
+            resources: [
+                .process("TestData/")
+            ]),
         .target(
             name: "DBTimetable",
             dependencies: [
                 "Moya",
                 "DBConnect"
             ]),
+        .target(
+            name: "SNCFConnect",
+            dependencies: ["Moya", "TrainConnect"],
+            resources: [
+                .process("TestData/")
+            ]),
+        .target(
+            name: "TrainConnect",
+            dependencies: ["Moya"]),
         .testTarget(
             name: "DBConnectTests",
-            dependencies: ["DBConnect"]),
+            dependencies: ["DBConnect", "SNCFConnect"]),
     ]
 )

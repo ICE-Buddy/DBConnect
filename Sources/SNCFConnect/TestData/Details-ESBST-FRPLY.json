@@ -1,0 +1,301 @@
+{
+  "number": "9702",
+  "carrier": "ELIPSOS",
+  "events": [],
+  "onboardServices": [
+    "OCEWF",
+    "OCEHP",
+    "OCEUB",
+    "OCEPP",
+    "OCEVP",
+    "OCECM"
+  ],
+  "additionalServices": {},
+  "stops": [
+    {
+      "code": "ESBST",
+      "label": "Barcelone-Sants",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 41.378961,
+        "longitude": 2.139834
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 87094.25507136396
+      },
+      "theoricDate": "2022-07-13T08:00:00.000Z",
+      "realDate": "2022-07-13T08:00:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 0
+    },
+    {
+      "code": "ESGRO",
+      "label": "GIRONA",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 41.979371,
+        "longitude": 2.816957
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 33300.266056819266
+      },
+      "theoricDate": "2022-07-13T08:38:00.000Z",
+      "realDate": "2022-07-13T08:38:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "ESFIR",
+      "label": "FIGUERES-VILAFANT",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 42.264581,
+        "longitude": 2.943028
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 48157.5929646958
+      },
+      "theoricDate": "2022-07-13T08:55:00.000Z",
+      "realDate": "2022-07-13T08:55:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "FRPGF",
+      "label": "Perpignan",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 42.69609577207918,
+        "longitude": 2.8793554008007054
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 55816.184821118746
+      },
+      "theoricDate": "2022-07-13T09:23:00.000Z",
+      "realDate": "2022-07-13T09:23:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 10
+    },
+    {
+      "code": "FRXNA",
+      "label": "Narbonne",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.19061811638447,
+        "longitude": 3.0056668817451286
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 23621.88470997291
+      },
+      "theoricDate": "2022-07-13T10:07:00.000Z",
+      "realDate": "2022-07-13T10:07:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "FRBZR",
+      "label": "Béziers",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.336294771787195,
+        "longitude": 3.2188948988914494
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 20070.93158730995
+      },
+      "theoricDate": "2022-07-13T10:23:30.000Z",
+      "realDate": "2022-07-13T10:23:30.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "FRXAG",
+      "label": "Agde",
+      "platform": "C",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.31728,
+        "longitude": 3.466203
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 21381.81515281203
+      },
+      "theoricDate": "2022-07-13T10:37:30.000Z",
+      "realDate": "2022-07-13T10:37:30.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "FRXSY",
+      "label": "Sète",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.4126405610056,
+        "longitude": 3.696570843458176
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 25955.294621849047
+      },
+      "theoricDate": "2022-07-13T10:53:30.000Z",
+      "realDate": "2022-07-13T10:53:30.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "FRMPL",
+      "label": "Montpellier Saint-Roch",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.604738,
+        "longitude": 3.880674
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 46380.51807139699
+      },
+      "theoricDate": "2022-07-13T11:11:00.000Z",
+      "realDate": "2022-07-13T11:11:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 7
+    },
+    {
+      "code": "FRFNI",
+      "label": "Nîmes Centre",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 43.832313,
+        "longitude": 4.365872
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 137512.23613586853
+      },
+      "theoricDate": "2022-07-13T11:45:00.000Z",
+      "realDate": "2022-07-13T11:45:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "FRVLA",
+      "label": "Valence TGV Rhône-Alpes Sud",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 44.99190690384574,
+        "longitude": 4.978652000427247
+      },
+      "progress": {
+        "progressPercentage": 0,
+        "traveledDistance": 0,
+        "remainingDistance": 470792.8025386879
+      },
+      "theoricDate": "2022-07-13T12:32:00.000Z",
+      "realDate": "2022-07-13T12:32:00.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 3
+    },
+    {
+      "code": "FRPLY",
+      "label": "Paris Gare de Lyon Hall 1 &2",
+      "services": {
+        "DRIVER": true
+      },
+      "coordinates": {
+        "latitude": 48.844945352522096,
+        "longitude": 2.3734813928604126
+      },
+      "theoricDate": "2022-07-13T14:47:30.000Z",
+      "realDate": "2022-07-13T14:47:30.000Z",
+      "isRemoved": false,
+      "isCreated": false,
+      "isDiversion": false,
+      "delay": 0,
+      "isDelayed": false,
+      "duration": 0
+    }
+  ],
+  "trainId": "806"
+}

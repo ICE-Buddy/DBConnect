@@ -8,8 +8,10 @@
 import Foundation
 import Combine
 import Moya
+import TrainConnect
 
-public class ICEDataController: NSObject {
+public final class ICEDataController: NSObject, TrainDataController {
+    
     public static let shared = ICEDataController()
     
     override init() {
@@ -22,6 +24,12 @@ public class ICEDataController: NSObject {
         } else {
             return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.neverStub)
         }
+    }
+    
+    public func loadTrip(demoMode: Bool, completionHandler: @escaping (TrainTrip?, Error?) -> ()) {
+        self.loadTripData(demoMode: demoMode, completionHandler: {
+            completionHandler($0?.trip, $1)
+        })
     }
     
     public func loadTripData(demoMode: Bool = false, completionHandler: @escaping (TripResponse?, Error?) -> ()){
@@ -57,6 +65,13 @@ public class ICEDataController: NSObject {
                 break
             }
         }
+    }
+    
+    
+    public func loadTrainStatus(demoMode: Bool, completionHandler: @escaping (TrainStatus?, Error?) -> ()) {
+        self.loadStatus(demoMode: demoMode, completionHandler: {
+            completionHandler($0, $1)
+        })
     }
     
     public func loadStatus(demoMode: Bool = false, completionHandler: @escaping (Status?, Error?) -> ()) {
