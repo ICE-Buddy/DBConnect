@@ -13,6 +13,7 @@ import AppKit
 
 #if !os(macOS)
 import UIKit
+import SwiftUI
 #endif
 
 public protocol TrainTrip {
