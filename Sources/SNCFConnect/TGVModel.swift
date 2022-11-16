@@ -12,6 +12,7 @@ import CoreLocation
 import AppKit
 #else
 import UIKit
+import SwiftUI
 #endif
 
 // MARK: - DetailsResponse
@@ -282,9 +283,18 @@ struct TVGTrainType: TrainType {
 //        }
 //    }
     
+    #if os(macOS)
     var trainIcon: NSImage? {
         Bundle.module.image(forResource: self.icon)!
     }
+    #endif
+    
+    #if os(iOS)
+    @available(iOS 13.0, *)
+    var trainIcon: Image? {
+        Image(self.icon)
+    }
+    #endif
     
     private var icon: String {
         guard let model = self.model else {
