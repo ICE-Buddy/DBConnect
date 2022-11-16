@@ -8,12 +8,13 @@
 import Foundation
 import Moya
 import DBConnect
+import TrainConnect
 
 // API used here: https://v5.db.transport.rest/api.html#get-stopsiddepartures
 
 enum DBTimetableAPI {
-    case departures(for: JourneyStop)
-    case arrivals(for: JourneyStop)
+    case departures(for: TrainStop)
+    case arrivals(for: TrainStop)
 }
 
 extension DBTimetableAPI: TargetType {
@@ -24,13 +25,13 @@ extension DBTimetableAPI: TargetType {
     var path: String {
         switch self {
         case .arrivals(let stop):
-            var evaNr = stop.station.evaNr
+            var evaNr = stop.trainStation.code
             if let index = evaNr.firstIndex(of: "_") {
                 evaNr = String(evaNr.prefix(upTo: index))
             }
             return "/stops/\(evaNr)/arrivals"
         case .departures(let stop):
-            var evaNr = stop.station.evaNr
+            var evaNr = stop.trainStation.code
             if let index = evaNr.firstIndex(of: "_") {
                 evaNr = String(evaNr.prefix(upTo: index))
             }
@@ -50,7 +51,7 @@ extension DBTimetableAPI: TargetType {
         switch self {
         case .departures(let stop), .arrivals(let stop):
             let params = [
-                "when": ISO8601DateFormatter().string(from: (stop.timetable.actualArrivalTimeDate ?? stop.timetable.scheduledDepartureTimeDate) ?? Date()),
+                "when": ISO8601DateFormatter().string(from: (stop.actualArrival ?? stop.scheduledDeparture) ?? Date()),
                 "includeRelatedStations": "false",
                 "duration": 180,
                 "bus": "false",

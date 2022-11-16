@@ -29,6 +29,10 @@ public struct DetailsResponse: Codable, TrainTrip {
         self.number
     }
     
+    public var finalStopInfo: TrainFinalStopInfo? {
+            nil
+    }
+    
     public let number: String
     public let carrier: String
     //  public let events: [Any]
@@ -44,7 +48,6 @@ public struct AdditionalServices: Codable {
 
 // MARK: - Stop
 public struct Stop: Codable, TrainStop {
-    
     public let id: UUID = UUID()
     
     public var trainStation: TrainStation {
@@ -90,6 +93,10 @@ public struct Stop: Codable, TrainStop {
             return Track(scheduled: platform, actual: platform)
         }
         return nil
+    }
+    
+    public var delayReason: String? {
+        nil
     }
     
     public let code: String

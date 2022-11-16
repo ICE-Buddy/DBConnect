@@ -8,12 +8,13 @@
 import Foundation
 import Moya
 import DBConnect
+import TrainConnect
 
 public class DBTimetableDataController: NSObject {
     public static let shared = DBTimetableDataController()
     private let provider = MoyaProvider<DBTimetableAPI>()
     
-    public func loadArrivalBoard(for stop: JourneyStop, completionHandler: @escaping ([TimetableTrip]?, Error?) -> ()){
+    public func loadArrivalBoard(for stop: TrainStop, completionHandler: @escaping ([TimetableTrip]?, Error?) -> ()){
         provider.request(.arrivals(for: stop)) { result in
             switch result {
             case .success(let response):
@@ -47,7 +48,7 @@ public class DBTimetableDataController: NSObject {
         }
     }
     
-    public func loadDepartureBoard(for stop: JourneyStop, completionHandler: @escaping ([TimetableTrip]?, Error?) -> ()) {
+    public func loadDepartureBoard(for stop: TrainStop, completionHandler: @escaping ([TimetableTrip]?, Error?) -> ()) {
         provider.request(.departures(for: stop)) { result in
             switch result {
             case .success(let response):
