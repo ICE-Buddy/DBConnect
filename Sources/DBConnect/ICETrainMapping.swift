@@ -87,25 +87,25 @@ public struct ICETrainType: TrainType {
     public var trainIcon: Image? {
         switch self.model {
         case .BR401:
-            return Image("BR401")
+            return Image("BR401", bundle: Bundle.module)
         case .BR402:
-            return Image("BR402")
+            return Image("BR402", bundle: Bundle.module)
         case .BR403:
-            return Image("BR403")
+            return Image("BR403", bundle: Bundle.module)
         case .BR406:
-            return Image("BR406")
+            return Image("BR406", bundle: Bundle.module)
         case .BR407:
-            return Image("BR407")
+            return Image("BR407", bundle: Bundle.module)
         case .BR408:
-            return Image("BR408")
+            return Image("BR408", bundle: Bundle.module)
         case .BR411:
-            return Image("BR411")
+            return Image("BR411", bundle: Bundle.module)
         case .BR415:
-            return Image("BR415")
+            return Image("BR415", bundle: Bundle.module)
         case .BR412:
-            return Image("BR412")
+            return Image("BR412", bundle: Bundle.module)
         case .unknown:
-            return Image("BR401")
+            return Image("BR401", bundle: Bundle.module)
         }
     }
     #endif

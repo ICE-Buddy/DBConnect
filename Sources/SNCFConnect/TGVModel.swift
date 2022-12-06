@@ -299,7 +299,8 @@ struct TVGTrainType: TrainType {
     #if os(iOS)
     @available(iOS 13.0, *)
     var trainIcon: Image? {
-        Image(self.icon)
+        
+        Image(self.icon, bundle: Bundle.module)
     }
     #endif
     
