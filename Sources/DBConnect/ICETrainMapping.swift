@@ -34,7 +34,7 @@ public struct ICETrainType: TrainType {
             case .BR407:
                 return [Int](701...799) + [Int](4701...4799)
             case .BR408:
-                return [Int](801...899)
+                return [Int](8001...8079)
             case .BR411:
                 return [Int](1101...1199)
             case .BR415:
