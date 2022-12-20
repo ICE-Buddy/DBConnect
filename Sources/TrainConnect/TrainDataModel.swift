@@ -19,8 +19,13 @@ public protocol TrainTrip {
     var train: String { get }
     var trainStops: [TrainStop] { get }
     var vzn: String { get }
+    var finalStopInfo: TrainFinalStopInfo? { get }
 }
 
+public protocol TrainFinalStopInfo {
+    var finalStationName: String { get }
+    var finalStationEvaNr: String { get }
+}
 
 public protocol TrainStop {
     var id: UUID { get }
@@ -37,6 +42,9 @@ public protocol TrainStop {
     var trainTrack: TrainTrack? { get }
     
     var hasPassed: Bool { get }
+    
+    var delayReason: String? { get }
+    
 }
 
 public protocol TrainStation {

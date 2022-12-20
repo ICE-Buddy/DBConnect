@@ -28,9 +28,13 @@ public struct Trip: Decodable, TrainTrip {
     public var train: String {
         self.trainType
     }
+    
+    public var finalStopInfo: TrainFinalStopInfo? {
+        self.stopInfo
+    }
 }
 
-public struct JourneyStopInfo: Decodable {
+public struct JourneyStopInfo: Decodable, TrainFinalStopInfo {
     public let finalStationName: String
     public let finalStationEvaNr: String
 }
@@ -80,6 +84,9 @@ public struct JourneyStop: Decodable, Hashable, Identifiable, TrainStop {
         self.info.passed
     }
     
+    public var delayReason: String? {
+        self.delayReasons?.last?.text
+    }
 
     
     public func hash(into hasher: inout Hasher) {
