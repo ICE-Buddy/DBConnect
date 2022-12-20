@@ -1,0 +1,2 @@
+[submodule "DBConnect"]
+	url = git@github.com:ICE-Buddy/DBConnect.git
