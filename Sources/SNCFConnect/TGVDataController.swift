@@ -43,32 +43,11 @@ public class TGVDataController: NSObject, TrainDataController {
         })
     }
     private func loadDetails(demoMode: Bool, completionHandler: @escaping (DetailsResponse?, Error?) -> ()){
-        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.tgvFormatter)
         let provider = getProvider(demoMode: demoMode)
-        provider.request(.details) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.filterSuccessfulStatusCodes()
-                    let decoder = JSONDecoder()
-                    print(DateFormatter.tgvFormatter.string(from: .init()))
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.tgvFormatter)
-                    let trip = try decoder.decode(DetailsResponse.self, from: response.data)
-                    completionHandler(trip, nil)
-                } catch let error {
-                    logDecodingError(error: error)
-                    completionHandler(nil, error)
-                }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
-                completionHandler(nil, error)
-                break
-            }
-        }
+        provider.loadJson(decoder: decoder, target: .details, completionHandler: completionHandler)
     }
-    
-    
     
     public func loadTrainStatus(demoMode: Bool = false, completionHandler: @escaping (TrainStatus?, Error?) -> ()) {
         self.loadGPS(demoMode: demoMode) { gps, error in
@@ -93,49 +72,11 @@ public class TGVDataController: NSObject, TrainDataController {
     }
     
     private func loadGPS(demoMode: Bool = false, completionHandler: @escaping (GPSResponse?, Error?) -> ()) {
-        let provider = getProvider(demoMode: demoMode)
-        provider.request(.gps) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.filterSuccessfulStatusCodes()
-                    let decoder = JSONDecoder()
-                    let status = try decoder.decode(GPSResponse.self, from: response.data)
-                    completionHandler(status, nil)
-                } catch let error {
-                    logDecodingError(error: error)
-                    completionHandler(nil, error)
-                }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
-                completionHandler(nil, error)
-                break
-            }
-        }
+        getProvider(demoMode: demoMode).loadJson(target: .gps, completionHandler: completionHandler)
     }
     
     private func loadStatistics(demoMode: Bool = false, completionHandler: @escaping (StatisticsResponse?, Error?) -> ()) {
-        let provider = getProvider(demoMode: demoMode)
-        provider.request(.statistics) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.filterSuccessfulStatusCodes()
-                    let decoder = JSONDecoder()
-                    let status = try decoder.decode(StatisticsResponse.self, from: response.data)
-                    completionHandler(status, nil)
-                } catch let error {
-                    logDecodingError(error: error)
-                    completionHandler(nil, error)
-                }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
-                completionHandler(nil, error)
-                break
-            }
-        }
+        getProvider(demoMode: demoMode).loadJson(target: .statistics, completionHandler: completionHandler)
     }
 }
 

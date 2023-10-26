@@ -33,31 +33,10 @@ public final class ICEDataController: NSObject, TrainDataController {
     }
     
     public func loadTripData(demoMode: Bool = false, completionHandler: @escaping (TripResponse?, Error?) -> ()){
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
         let provider = getProvider(demoMode: demoMode)
-        provider.request(.trip) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.filterSuccessfulStatusCodes()
-                    if response.data.isEmpty {
-                        // iceportal.de outside WiFi returns 200 with an empty body.
-                        completionHandler(nil, TrainConnectionError.notConnected)
-                    }
-                    let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
-                    let trip = try decoder.decode(TripResponse.self, from: response.data)
-                    completionHandler(trip, nil)
-                } catch let error {
-                    logDecodingError(error: error)
-                    completionHandler(nil, error)
-                }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
-                completionHandler(nil, error)
-                break
-            }
-        }
+        provider.loadJson(decoder: decoder, target: .trip, completionHandler: completionHandler)
     }
     
     
@@ -68,26 +47,7 @@ public final class ICEDataController: NSObject, TrainDataController {
     }
     
     public func loadStatus(demoMode: Bool = false, completionHandler: @escaping (Status?, Error?) -> ()) {
-        let provider = getProvider(demoMode: demoMode)
-        provider.request(.status) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.filterSuccessfulStatusCodes()
-                    let decoder = JSONDecoder()
-                    let status = try decoder.decode(Status.self, from: response.data)
-                    completionHandler(status, nil)
-                } catch let error {
-                    logDecodingError(error: error)
-                    completionHandler(nil, error)
-                }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
-                completionHandler(nil, error)
-                break
-            }
-        }
+        getProvider(demoMode: demoMode).loadJson(target: .status, completionHandler: completionHandler)
     }
 }
 

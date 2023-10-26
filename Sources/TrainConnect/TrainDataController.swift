@@ -22,36 +22,31 @@ public class CombinedDataController: TrainDataController {
     }
     
     public func loadTrip(demoMode: Bool, completionHandler: @escaping (TrainTrip?, Error?) -> ()) {
-        var completed: Bool = false
-        var failed: Int = 0
-        for controller in controllers {
-            controller.loadTrip(demoMode: demoMode) {
-                if let error = $1 {
-                    failed += 1
-                    if failed >= self.controllers.count {
-                        completionHandler(nil, error)
-                    }
-                } else if !completed, let trip = $0 {
-                    completed = true
-                    completionHandler(trip, nil)
-                }
-            }
+        delegate(completionHandler: completionHandler) {
+            $0.loadTrip(demoMode: demoMode, completionHandler: $1)
         }
     }
     
     public func loadTrainStatus(demoMode: Bool, completionHandler: @escaping (TrainStatus?, Error?) -> ()) {
+        delegate(completionHandler: completionHandler) {
+            $0.loadTrainStatus(demoMode: demoMode, completionHandler: $1)
+        }
+    }
+    
+    private func delegate<D>(completionHandler: @escaping (D?, Error?) -> (),
+                             action: (TrainDataController, @escaping (D?, Error?) -> ()) -> ()) {
         var completed: Bool = false
         var failed: Int = 0
         for controller in controllers {
-            controller.loadTrainStatus(demoMode: demoMode) {
-                if let error = $1 {
+            action(controller) { result, error in
+                if let error = error {
                     failed += 1
                     if failed >= self.controllers.count {
                         completionHandler(nil, error)
                     }
-                } else if !completed, let status = $0 {
+                } else if !completed, let result = result {
                     completed = true
-                    completionHandler(status, nil)
+                    completionHandler(result, nil)
                 }
             }
         }

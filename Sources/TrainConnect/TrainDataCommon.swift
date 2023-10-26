@@ -1,4 +1,38 @@
-public func logDecodingError(error: Error) {
+import Foundation
+import Moya
+
+public extension MoyaProvider {
+    func loadJson<D: Decodable>(decoder: JSONDecoder = .init(),
+                                target: Target,
+                                completionHandler: @escaping (D?, Error?) -> ()) {
+        request(target) { result in
+            switch result {
+            case .success(let response):
+                do {
+                    let response = try response.filterSuccessfulStatusCodes()
+                    if response.data.isEmpty {
+                        // iceportal.de outside WiFi returns 200 with an empty body.
+                        completionHandler(nil, TrainConnectionError.notConnected)
+                    }
+                    else {
+                        let result = try decoder.decode(D.self, from: response.data)
+                        completionHandler(result, nil)
+                    }
+                } catch let error {
+                    logDecodingError(error: error)
+                    completionHandler(nil, error)
+                }
+                break
+            case .failure(let error):
+                print(error.localizedDescription)
+                completionHandler(nil, error)
+                break
+            }
+        }
+    }
+}
+
+private func logDecodingError(error: Error) {
     switch error {
     case DecodingError.dataCorrupted(let context):
         print(context)
