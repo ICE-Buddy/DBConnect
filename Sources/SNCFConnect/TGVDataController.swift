@@ -33,7 +33,8 @@ public class TGVDataController: NSObject, TrainDataController {
         if demoMode {
             return MoyaProvider<TGVPortalAPI>(stubClosure: MoyaProvider.immediatelyStub)
         } else {
-            return MoyaProvider<TGVPortalAPI>(stubClosure: MoyaProvider.neverStub)
+            return MoyaProvider<TGVPortalAPI>(stubClosure: MoyaProvider.neverStub,
+                                              session: alamofireSessionWithFasterTimeout)
         }
     }
     

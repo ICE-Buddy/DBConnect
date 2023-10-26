@@ -22,7 +22,8 @@ public final class ICEDataController: NSObject, TrainDataController {
         if demoMode {
             return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.immediatelyStub)
         } else {
-            return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.neverStub)
+            return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.neverStub,
+                                              session: alamofireSessionWithFasterTimeout)
         }
     }
     

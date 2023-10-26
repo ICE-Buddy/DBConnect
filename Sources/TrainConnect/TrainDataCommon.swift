@@ -1,5 +1,6 @@
 import Foundation
 import Moya
+import Alamofire
 
 public extension MoyaProvider {
     func loadJson<D: Decodable>(decoder: JSONDecoder = .init(),
@@ -49,3 +50,11 @@ private func logDecodingError(error: Error) {
         print(error.localizedDescription)
     }
 }
+
+public let alamofireSessionWithFasterTimeout: Alamofire.Session = {
+    let configuration = URLSessionConfiguration.default
+    // Use a very short timeout so we don't wait a minute before showing the "not connected" UI
+    configuration.timeoutIntervalForRequest = 2
+    configuration.timeoutIntervalForResource = 2
+    return Alamofire.Session(configuration: configuration)
+}()
