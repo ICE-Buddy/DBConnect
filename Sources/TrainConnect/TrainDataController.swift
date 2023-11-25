@@ -57,3 +57,7 @@ public class CombinedDataController: TrainDataController {
         }
     }
 }
+
+public enum TrainConnectionError: Error {
+    case notConnected
+}
