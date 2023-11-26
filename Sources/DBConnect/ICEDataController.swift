@@ -44,6 +44,11 @@ public final class ICEDataController: NSObject, TrainDataController {
                     let trip = try decoder.decode(TripResponse.self, from: response.data)
                     completionHandler(trip, nil)
                 } catch DecodingError.dataCorrupted(let context) {
+                    if response.data.count == 0 {
+                        // iceportal.de outside WiFi returns 200 with an empty body.
+                        completionHandler(nil, TrainConnectionError.notConnected)
+                        break
+                    }
                     print(context)
                 } catch DecodingError.keyNotFound(let key, let context) {
                     print("Key '\(key)' not found:", context.debugDescription)
@@ -85,6 +90,11 @@ public final class ICEDataController: NSObject, TrainDataController {
                     let status = try decoder.decode(Status.self, from: response.data)
                     completionHandler(status, nil)
                 } catch DecodingError.dataCorrupted(let context) {
+                    if response.data.count == 0 {
+                        // iceportal.de outside WiFi returns 200 with an empty body.
+                        completionHandler(nil, TrainConnectionError.notConnected)
+                        break
+                    }
                     print(context)
                 } catch DecodingError.keyNotFound(let key, let context) {
                     print("Key '\(key)' not found:", context.debugDescription)
@@ -123,3 +133,4 @@ extension ICEDataController {
         return stop
     }
 }
+
