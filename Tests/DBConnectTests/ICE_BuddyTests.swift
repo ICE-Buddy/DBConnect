@@ -1,38 +1,32 @@
-//
-//  ICE_BuddyTests.swift
-//  ICE BuddyTests
-//
-//  Created by Frederik Riedel on 16.11.21.
-//
-
 import XCTest
-@testable import ICE_Buddy
 @testable import DBConnect
+import TrainConnect
 
-class ICE_BuddyTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+final class ICETrainIdentificationTests: XCTestCase {
+    func testReportedSeriesAndEveryVehicleImage() {
+        for series in ["408", "BR408", "br 408", "408.0"] {
+            XCTAssertEqual(ICETrainType(tzn: "Tz 9001", series: series).model, .BR408)
+        }
+        XCTAssertEqual(ICETrainType(tzn: "Tz 1801", series: "105").model, .ICE_L)
+        XCTAssertEqual(ICETrainType(tzn: "Tz 9001", series: "807").model, .BR412)
+        for model in ICETrainType.Model.allCases {
+            let type = ICETrainType(tzn: "unidentified", series: model.rawValue)
+            #if os(macOS)
+            guard let image = type.trainIcon else { XCTFail("Missing image: \(model)"); continue }
+            XCTAssertGreaterThan(image.size.width, image.size.height * 3, "Missing artwork: \(model)")
+            #endif
+        }
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testTriebzugNummern() throws {
-        let tz240 = ICETrainType(tzn: "Tz240").model
-        XCTAssertEqual(tz240, .BR402)
-        
-        let tz9453 = ICETrainType(tzn: "Tz9453").model
-        XCTAssertEqual(tz9453, .BR412)
-
-        let tz_9453 = ICETrainType(tzn: "Tz 9453").model
-        XCTAssertEqual(tz_9453, .BR412)
-
-        let ICE0334 = ICETrainType(tzn: "ICE0334").model
-        XCTAssertEqual(ICE0334, .BR403)
-
-        let ICE1159 = ICETrainType(tzn: "ICE1159").model
-        XCTAssertEqual(ICE1159, .BR411)
+    func testTrainsetIdentifiers() {
+        let cases: [(String, ICETrainType.Model)] = [
+            ("Tz240", .BR402), ("Tz9453", .BR412), ("Tz 9453", .BR412),
+            ("ICE0334", .BR403), ("ICE1159", .BR411), ("ICE08014", .BR408),
+            (" Tz 8014 ", .BR408), ("8014", .BR408), ("TZN 8080", .BR408),
+            ("ICE9999", .unknown), ("ICE 221 to Berlin", .unknown)
+        ]
+        for (identifier, expected) in cases {
+            XCTAssertEqual(ICETrainType(tzn: identifier).model, expected, identifier)
+        }
     }
 }

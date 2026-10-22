@@ -52,9 +52,10 @@ private func logDecodingError(error: Error) {
 }
 
 public let alamofireSessionWithFasterTimeout: Alamofire.Session = {
-    let configuration = URLSessionConfiguration.default
+    let configuration = URLSessionConfiguration.ephemeral
     // Use a very short timeout so we don't wait a minute before showing the "not connected" UI
-    configuration.timeoutIntervalForRequest = 2
-    configuration.timeoutIntervalForResource = 2
+    configuration.timeoutIntervalForRequest = 4
+    configuration.timeoutIntervalForResource = 6
+    configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
     return Alamofire.Session(configuration: configuration)
 }()

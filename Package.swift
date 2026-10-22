@@ -20,6 +20,7 @@ let package = Package(
         .library(
             name: "SNCFConnect",
             targets: ["SNCFConnect"]),
+        .library(name: "OnboardConnect", targets: ["OnboardConnect"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -34,7 +35,7 @@ let package = Package(
             name: "DBConnect",
             dependencies: ["Moya", "TrainConnect"],
             resources: [
-                .process("TestData/")
+                .process("TestData/"), .process("Media.xcassets")
             ]),
         .target(
             name: "DBTimetable",
@@ -46,13 +47,14 @@ let package = Package(
             name: "SNCFConnect",
             dependencies: ["Moya", "TrainConnect"],
             resources: [
-                .process("TestData/")
+                .process("TestData/"), .process("Media.xcassets")
             ]),
         .target(
             name: "TrainConnect",
             dependencies: ["Moya"]),
+        .target(name: "OnboardConnect", dependencies: ["Moya", "TrainConnect"], resources: [.process("TestData/"), .process("Media.xcassets")]),
         .testTarget(
             name: "DBConnectTests",
-            dependencies: ["DBConnect", "SNCFConnect"]),
+            dependencies: ["DBConnect", "SNCFConnect", "OnboardConnect"]),
     ]
 )
