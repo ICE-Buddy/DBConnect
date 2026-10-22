@@ -139,14 +139,22 @@ public struct ICETrainType: TrainType {
     
 }
 
-extension Array where Element == Int {
-    private func number(number: Int, matchesWithTzn tzn: String) -> Bool {
-        tzn.lowercased() == "tz\(number)" || tzn.lowercased() == "tz \(number)" || tzn.lowercased() == "ice\(number)" || tzn.lowercased() == "ice \(number)"
+private extension Array where Element == Int {
+    func contains(triebzugnummer: String) -> Bool {
+        guard let match = triebzugnummer.match(pattern: "^(tz|ice) ?(\\d+)?$"),
+              let range = Range(match.range(at: 2), in: triebzugnummer),
+              let digits = Int(triebzugnummer[range], radix: 10) else {
+            return false
+        }
+        return contains(digits)
     }
-    
-    public func contains(triebzugnummer: String) -> Bool {
-        self.contains(where: { number in
-            self.number(number: number, matchesWithTzn: triebzugnummer)
-        })
+}
+
+private extension String {
+    func match(pattern: String) -> NSTextCheckingResult? {
+        // Replace with Swift regular expression matching once targeting macOS 13.0 or higher
+        let range = NSRange(startIndex..<endIndex, in: self)
+        return try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+            .firstMatch(in: self, range: range)
     }
 }
