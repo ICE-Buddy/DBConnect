@@ -11,6 +11,7 @@ public final class CDDataController: TrainDataController {
     public func loadTrip(demoMode: Bool, completionHandler: @escaping (TrainTrip?, Error?) -> Void) {
         provider(demoMode).loadJson(target: .cdJourney) { (response: CDJourneyResponse?, error) in
             guard let response = response, !response.connexionTimes.isEmpty else {
+                if error == nil { APIDiagnostics.shared.recordInvalidResponse(endpoint: .cdJourney) }
                 completionHandler(nil, error ?? TrainConnectionError.invalidResponse); return
             }
             completionHandler(response.journey(), nil)
@@ -20,6 +21,7 @@ public final class CDDataController: TrainDataController {
         provider(demoMode).loadJson(target: .cdStatus) { (response: CDStatusResponse?, error) in
             guard let response = response, response.speed.isFinite, response.speed >= 0,
                   (-90...90).contains(response.gpsLat), (-180...180).contains(response.gpsLng) else {
+                if error == nil { APIDiagnostics.shared.recordInvalidResponse(endpoint: .cdStatus) }
                 completionHandler(nil, error ?? TrainConnectionError.invalidResponse); return
             }
             completionHandler(OnboardStatus(latitude: response.gpsLat, longitude: response.gpsLng,

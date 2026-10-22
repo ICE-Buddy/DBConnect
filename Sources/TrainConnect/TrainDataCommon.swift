@@ -4,56 +4,35 @@ import Alamofire
 
 public extension MoyaProvider {
     func loadJson<D: Decodable>(decoder: JSONDecoder = .init(),
-                                target: Target,
-                                completionHandler: @escaping (D?, Error?) -> ()) {
+                               target: Target,
+                               completionHandler: @escaping (D?, Error?) -> Void) {
+        let startedAt = DispatchTime.now().uptimeNanoseconds
+        let endpoint = APIDiagnosticEndpoint(baseURL: target.baseURL, path: target.path)
         request(target) { result in
             switch result {
             case .success(let response):
                 do {
                     let response = try response.filterSuccessfulStatusCodes()
-                    if response.data.isEmpty {
-                        // iceportal.de outside WiFi returns 200 with an empty body.
-                        completionHandler(nil, TrainConnectionError.notConnected)
+                    guard !response.data.isEmpty else {
+                        throw TrainConnectionError.notConnected
                     }
-                    else {
-                        let result = try decoder.decode(D.self, from: response.data)
-                        completionHandler(result, nil)
-                    }
-                } catch let error {
-                    logDecodingError(error: error)
+                    let decoded = try decoder.decode(D.self, from: response.data)
+                    APIDiagnostics.shared.record(endpoint: endpoint, response: response, error: nil, startedAt: startedAt)
+                    completionHandler(decoded, nil)
+                } catch {
+                    APIDiagnostics.shared.record(endpoint: endpoint, response: response, error: error, startedAt: startedAt)
                     completionHandler(nil, error)
                 }
-                break
             case .failure(let error):
-                print(error.localizedDescription)
+                APIDiagnostics.shared.record(endpoint: endpoint, response: error.response, error: error, startedAt: startedAt)
                 completionHandler(nil, error)
-                break
             }
         }
     }
 }
 
-private func logDecodingError(error: Error) {
-    switch error {
-    case DecodingError.dataCorrupted(let context):
-        print(context)
-    case DecodingError.keyNotFound(let key, let context):
-        print("Key '\(key)' not found:", context.debugDescription)
-        print("codingPath:", context.codingPath)
-    case DecodingError.valueNotFound(let value, let context):
-        print("Value '\(value)' not found:", context.debugDescription)
-        print("codingPath:", context.codingPath)
-    case DecodingError.typeMismatch(let type, let context):
-        print("Type '\(type)' mismatch:", context.debugDescription)
-        print("codingPath:", context.codingPath)
-    default:
-        print(error.localizedDescription)
-    }
-}
-
 public let alamofireSessionWithFasterTimeout: Alamofire.Session = {
     let configuration = URLSessionConfiguration.ephemeral
-    // Use a very short timeout so we don't wait a minute before showing the "not connected" UI
     configuration.timeoutIntervalForRequest = 4
     configuration.timeoutIntervalForResource = 6
     configuration.requestCachePolicy = .reloadIgnoringLocalCacheData

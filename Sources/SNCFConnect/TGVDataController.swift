@@ -48,12 +48,14 @@ public class TGVDataController: NSObject, TrainDataController {
     public func loadSnapshot(demoMode: Bool, completionHandler: @escaping (TrainSnapshot?, Error?) -> Void) {
         loadDetails(demoMode: demoMode) { trip, error in
             guard let trip = trip, !trip.stops.isEmpty else {
+                if error == nil { APIDiagnostics.shared.recordInvalidResponse(endpoint: .tgvDetails) }
                 completionHandler(nil, error ?? TrainConnectionError.invalidResponse)
                 return
             }
             self.loadGPS(demoMode: demoMode) { gps, _ in
                 guard let gps = gps, gps.success, gps.speed >= 0,
                       (-90...90).contains(gps.latitude), (-180...180).contains(gps.longitude) else {
+                    if gps != nil { APIDiagnostics.shared.recordInvalidResponse(endpoint: .tgvGPS) }
                     completionHandler(TrainSnapshot(trip: trip, status: nil), nil)
                     return
                 }

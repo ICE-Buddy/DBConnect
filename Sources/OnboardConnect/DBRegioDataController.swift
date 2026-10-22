@@ -14,6 +14,7 @@ public final class DBRegioDataController: TrainDataController {
                                                  session: alamofireSessionWithFasterTimeout)
         provider.loadJson(target: .dbRegio) { (response: RegioResponse?, error) in
             guard let response = response, !response.stops.isEmpty else {
+                if error == nil { APIDiagnostics.shared.recordInvalidResponse(endpoint: .dbRegio) }
                 completionHandler(nil, error ?? TrainConnectionError.invalidResponse); return
             }
             completionHandler(response.journey(), nil)
