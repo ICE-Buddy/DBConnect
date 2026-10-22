@@ -29,6 +29,9 @@ public final class ICEDataController: NSObject, TrainDataController {
     
     public func loadTrip(demoMode: Bool, completionHandler: @escaping (TrainTrip?, Error?) -> ()) {
         self.loadTripData(demoMode: demoMode, completionHandler: {
+            if let trip = $0?.trip, trip.stops.isEmpty {
+                APIDiagnostics.shared.recordInvalidResponse(endpoint: .iceTrip)
+            }
             completionHandler($0?.trip, $1)
         })
     }

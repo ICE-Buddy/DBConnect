@@ -13,7 +13,10 @@ public final class RailnetDataController: TrainDataController {
         provider.loadJson(target: .railnet) { (response: RailnetResponse?, error) in
             guard let response = response else { completionHandler(nil, error); return }
             do { completionHandler(try response.snapshot(), nil) }
-            catch { completionHandler(nil, error) }
+            catch {
+                APIDiagnostics.shared.recordInvalidResponse(endpoint: .railnet)
+                completionHandler(nil, error)
+            }
         }
     }
     public func loadTrip(demoMode: Bool, completionHandler: @escaping (TrainTrip?, Error?) -> Void) {

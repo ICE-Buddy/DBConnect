@@ -36,6 +36,14 @@ ICE 3neo is BR 408; the ordered allocation extends through 8090. ICE 4 fallback 
 
 Every known ICE family and TGV family has packaged artwork. New operator/unknown images are original schematic SVG illustrations; they do not assert a specific vehicle class.
 
+## API diagnostics
+
+`APIDiagnostics.shared.makeReport(applicationVersion:build:isDemo:)` exports a versioned JSON report. The shared JSON transport records a maximum of 40 recent results, retained only in process memory for up to 15 minutes. Operator adapters also record responses that decode but fail semantic validation.
+
+The report includes static, catalogued endpoints; status codes; byte counts; elapsed time; fixed error categories; safe schema field paths; and numeric URL-loading error codes. It also includes app/build and macOS versions and whether demo mode is active. Arbitrary URL hosts/paths, query values, credentials, headers, raw responses, localized errors, dynamic dictionary keys and error descriptions are not retained. Unknown endpoints and coding keys are redacted. Expected failed probes for operators whose Wi-Fi is not present are not, by themselves, evidence of an app bug.
+
+The recorder has no network sender or disk persistence. Train Buddy provides explicit preview, email-draft and file-export actions. The person decides whether to share a report.
+
 ## Development
 
 ```sh
