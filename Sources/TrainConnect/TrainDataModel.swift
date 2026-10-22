@@ -20,6 +20,7 @@ public protocol TrainTrip {
     var trainStops: [TrainStop] { get }
     var vzn: String { get }
     var finalStopInfo: TrainFinalStopInfo? { get }
+    var vehicleType: TrainType? { get }
 }
 
 public protocol TrainFinalStopInfo {
@@ -42,6 +43,7 @@ public protocol TrainStop {
     var trainTrack: TrainTrack? { get }
     
     var hasPassed: Bool { get }
+    var isCancelled: Bool { get }
     
     var delayReason: String? { get }
     
@@ -85,7 +87,18 @@ public protocol TrainConnectivity {
 public extension Array where Element == TrainStop {
     var nextStop: TrainStop? {
         self.filter({ stop in
-            return !stop.hasPassed
+            return !stop.hasPassed && !stop.isCancelled
         }).first
     }
+}
+
+/// International names for the legacy German wire identifier (`vzn`).
+public extension TrainTrip {
+    var vehicleType: TrainType? { nil }
+    var serviceNumber: String { vzn }
+    var serviceName: String { [train, serviceNumber].filter { !$0.isEmpty }.joined(separator: " ") }
+}
+
+public extension TrainStop {
+    var isCancelled: Bool { false }
 }

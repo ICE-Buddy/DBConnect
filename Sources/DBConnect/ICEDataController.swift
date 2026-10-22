@@ -22,7 +22,8 @@ public final class ICEDataController: NSObject, TrainDataController {
         if demoMode {
             return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.immediatelyStub)
         } else {
-            return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.neverStub)
+            return MoyaProvider<ICEPortalAPI>(stubClosure: MoyaProvider.neverStub,
+                                              session: alamofireSessionWithFasterTimeout)
         }
     }
     
@@ -33,43 +34,10 @@ public final class ICEDataController: NSObject, TrainDataController {
     }
     
     public func loadTripData(demoMode: Bool = false, completionHandler: @escaping (TripResponse?, Error?) -> ()){
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
         let provider = getProvider(demoMode: demoMode)
-        provider.request(.trip) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.filterSuccessfulStatusCodes()
-                    let decoder = JSONDecoder()
-                    decoder.dateDecodingStrategy = .formatted(DateFormatter.yyyyMMdd)
-                    let trip = try decoder.decode(TripResponse.self, from: response.data)
-                    completionHandler(trip, nil)
-                } catch DecodingError.dataCorrupted(let context) {
-                    if response.data.count == 0 {
-                        // iceportal.de outside WiFi returns 200 with an empty body.
-                        completionHandler(nil, TrainConnectionError.notConnected)
-                        break
-                    }
-                    print(context)
-                } catch DecodingError.keyNotFound(let key, let context) {
-                    print("Key '\(key)' not found:", context.debugDescription)
-                    print("codingPath:", context.codingPath)
-                } catch DecodingError.valueNotFound(let value, let context) {
-                    print("Value '\(value)' not found:", context.debugDescription)
-                    print("codingPath:", context.codingPath)
-                } catch DecodingError.typeMismatch(let type, let context) {
-                    print("Type '\(type)' mismatch:", context.debugDescription)
-                    print("codingPath:", context.codingPath)
-                } catch {
-                    print(error.localizedDescription)
-                    completionHandler(nil, error)
-                }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
-                completionHandler(nil, error)
-                break
-            }
-        }
+        provider.loadJson(decoder: decoder, target: .trip, completionHandler: completionHandler)
     }
     
     
@@ -80,42 +48,7 @@ public final class ICEDataController: NSObject, TrainDataController {
     }
     
     public func loadStatus(demoMode: Bool = false, completionHandler: @escaping (Status?, Error?) -> ()) {
-        let provider = getProvider(demoMode: demoMode)
-        provider.request(.status) { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.filterSuccessfulStatusCodes()
-                    let decoder = JSONDecoder()
-                    let status = try decoder.decode(Status.self, from: response.data)
-                    completionHandler(status, nil)
-                } catch DecodingError.dataCorrupted(let context) {
-                    if response.data.count == 0 {
-                        // iceportal.de outside WiFi returns 200 with an empty body.
-                        completionHandler(nil, TrainConnectionError.notConnected)
-                        break
-                    }
-                    print(context)
-                } catch DecodingError.keyNotFound(let key, let context) {
-                    print("Key '\(key)' not found:", context.debugDescription)
-                    print("codingPath:", context.codingPath)
-                } catch DecodingError.valueNotFound(let value, let context) {
-                    print("Value '\(value)' not found:", context.debugDescription)
-                    print("codingPath:", context.codingPath)
-                } catch DecodingError.typeMismatch(let type, let context) {
-                    print("Type '\(type)' mismatch:", context.debugDescription)
-                    print("codingPath:", context.codingPath)
-                } catch {
-                    print(error.localizedDescription)
-                    completionHandler(nil, error)
-                }
-                break
-            case .failure(let error):
-                print(error.localizedDescription)
-                completionHandler(nil, error)
-                break
-            }
-        }
+        getProvider(demoMode: demoMode).loadJson(target: .status, completionHandler: completionHandler)
     }
 }
 

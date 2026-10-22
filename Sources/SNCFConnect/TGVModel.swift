@@ -48,7 +48,7 @@ public struct AdditionalServices: Codable {
 
 // MARK: - Stop
 public struct Stop: Codable, TrainStop {
-    public let id: UUID = UUID()
+    public var id: UUID { TrainStopIdentifier.uuid(provider: "sncf", station: code, scheduledTime: scheduledDeparture ?? scheduledArrival) }
     
     public var trainStation: TrainStation {
         Station(code: self.code,
@@ -148,7 +148,7 @@ struct Status: TrainStatus {
     
     
     let gps: GPSResponse
-    let statistics: StatisticsResponse
+    let statistics: StatisticsResponse?
     
     let trainId: String
     
@@ -169,28 +169,29 @@ struct Status: TrainStatus {
     
     
     var currentConnectivity: String? {
+        guard let statistics = statistics else { return nil }
         var connectivity: String = ""
-        for _ in 0..<statistics.quality {
+        for _ in 0..<min(5, max(0, statistics.quality)) {
             connectivity += "●"
         }
-        for _ in 0..<max(0, 5 - statistics.quality) {
+        for _ in 0..<max(0, 5 - max(0, statistics.quality)) {
             connectivity += "○"
         }
         return connectivity
     }
     
     var connectedDevices: Int? {
-        self.statistics.devices
+        self.statistics?.devices
     }
     
     var trainType: TrainType {
-        TVGTrainType(trainId: self.trainId)
+        TGVTrainType(trainId: self.trainId)
     }
 }
 
-struct TVGTrainType: TrainType {
+struct TGVTrainType: TrainType {
     
-    enum TVGModel: String {
+    enum TGVModel: String {
         case pseBi = "TGV PSE (bicourant)"
         case pseTri = "TGV PSE (tricourant)"
         case atlantique = "TGV Atlantique"
@@ -214,7 +215,7 @@ struct TVGTrainType: TrainType {
         return self.model?.rawValue ?? self.trainId
     }
     
-    private var model: TVGModel? {
+    private var model: TGVModel? {
         switch Int(self.trainId) ?? 0 {
         case 1...102:
             return .pseBi
@@ -236,7 +237,7 @@ struct TVGTrainType: TrainType {
             return .dasye
         case 800...810:
             return .euroduplex3UH
-        case 811...852:
+        case 811...825:
             return .euroduplex3UF
         case 4701...4730:
             return .euroduplex3UA
@@ -249,50 +250,9 @@ struct TVGTrainType: TrainType {
         }
     }
     
-    // Source: fr.wikipedia.org
-//    var trainModel: String {
-//        switch Int(self.trainId) ?? 0 {
-//        case 301...405:
-//            return "TGV Atlantique" // https://fr.wikipedia.org/wiki/TGV_Atlantique
-//        case 4701...4730:
-//            return "Euroduplex / TGV 2N2 (3UA 310000)" // https://fr.wikipedia.org/wiki/TGV_2N2
-//        case 801...810:
-//            return "Euroduplex / TGV 2N2 (3UH 310200)" // https://fr.wikipedia.org/wiki/TGV_2N2
-//        case 811...825:
-//            return "Euroduplex / TGV 2N2 (3UF 310200)" // https://fr.wikipedia.org/wiki/TGV_2N2
-//        case 836...865, 867...891:
-//            return "TGV L'Océane / TGV 2N2 (3UFC 310200)" // https://fr.wikipedia.org/wiki/TGV_2N2
-//        case 1201...1212:
-//            return "Euroduplex / Al Boraq" // https://fr.wikipedia.org/wiki/TGV_2N2
-//        case 4532...4540, 4551:
-//            return "TGV Thalys (PBA)" // https://fr.wikipedia.org/wiki/TGV_PBA
-//        case 4301...4307, 4321...4322, 4331...4332, 4341...4346:
-//            return "TGV Thalys (PBKA)" // https://fr.wikipedia.org/wiki/TGV_PBKA
-//        case 501...554:
-//            return "TGV Réseau (28000 bicourant)" // https://fr.wikipedia.org/wiki/TGV_Réseau
-//        case 4501...4530:
-//            return "TGV Réseau (380000 tricourant)" // https://fr.wikipedia.org/wiki/TGV_Réseau
-//        case 4532...4540:
-//            return "TGV Réseau (380000 tricourant PBA)" // https://fr.wikipedia.org/wiki/TGV_Réseau
-//        case 4401...4419:
-//            return "TGV POS (384000)" // https://fr.wikipedia.org/wiki/TGV_POS
-//        case 1...37, 39...87, 89...98, 100...102:
-//            return "TGV Sud-Est (23000 bicourant)" // https://fr.wikipedia.org/wiki/TGV_Sud-Est
-//        case 110...118:
-//            return "TGV Sud-Est (33000 tricourant)" // https://fr.wikipedia.org/wiki/TGV_Sud-Est
-//        default:
-//            return "Unknown \(self.trainId)"
-//            /*
-//             Unmatched:
-//             - https://fr.wikipedia.org/wiki/TGV_Duplex
-//             - https://fr.wikipedia.org/wiki/TGV_TMST
-//             */
-//        }
-//    }
-    
     #if os(macOS)
     var trainIcon: NSImage? {
-        Bundle.module.image(forResource: self.icon)!
+        Bundle.module.image(forResource: self.icon) ?? NSImage(systemSymbolName: "tram.fill", accessibilityDescription: trainModel)
     }
     #endif
     

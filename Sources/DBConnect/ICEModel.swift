@@ -40,7 +40,7 @@ public struct JourneyStopInfo: Decodable, TrainFinalStopInfo {
 }
 
 public struct JourneyStop: Decodable, Hashable, Identifiable, TrainStop {
-    public let id = UUID()
+    public var id: UUID { TrainStopIdentifier.uuid(provider: "db-ice", station: station.evaNr, scheduledTime: scheduledDeparture ?? scheduledArrival) }
     public let station: Station
     public let timetable: Timetable
     public let track: Track
@@ -84,6 +84,8 @@ public struct JourneyStop: Decodable, Hashable, Identifiable, TrainStop {
         self.info.passed
     }
     
+    public var isCancelled: Bool { info.status == 1 && info.distanceFromStart == 0 }
+
     public var delayReason: String? {
         self.delayReasons?.last?.text
     }
@@ -162,6 +164,7 @@ public struct Track: Decodable, TrainTrack {
 }
 
 public struct Info: Decodable {
+    public let distanceFromStart: Int?
     public let distance: Int
     public let passed: Bool
     public let status: Int
@@ -197,7 +200,7 @@ public struct Status: Decodable, TrainStatus {
     }
     
     public var trainType: TrainType {
-        ICETrainType(tzn: tzn)
+        ICETrainType(tzn: tzn, series: series)
     }
     
     public var currentSpeed: Measurement<UnitSpeed> {
